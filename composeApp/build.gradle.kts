@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -25,6 +26,8 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -76,11 +79,15 @@ android {
     dependencies {
         debugImplementation(compose.uiTooling)
     }
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
+
 }
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "org.cycobytes.noterius.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
